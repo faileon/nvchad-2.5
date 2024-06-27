@@ -1,10 +1,18 @@
 require "nvchad.mappings"
-
--- add yours here
-
 local map = vim.keymap.set
 
-map("n", ";", ":", { desc = "CMD enter command mode" })
-map("i", "jk", "<ESC>")
+-- FORMATING ON DEMAND
+map("n", "<leader>fm", function()
+  require("conform").format()
+end, { desc = "Format with conform" })
 
--- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
+-- CLOSE ALL BUFFERS
+map("n", "<leader>ax", ":wa | %bd | e#<CR>", { desc = "Save & close all buffers except the current one." })
+
+-- Typescript tools
+map("n", "<leader>lo", ":TSToolsOrganizeImports<CR>", { desc = "Organize imports via TSTools" })
+map("n", "<leader>li", ":TSToolsAddMissingImports<CR>", { desc = "Add missing imports via TSTools" })
+
+-- Indent VISUAL blocks
+map("v", ">", ">gv", { desc = "Indent selected VISUAL block" })
+map("v", "<", "<gv", { desc = "Indent selected VISUAL block" })
