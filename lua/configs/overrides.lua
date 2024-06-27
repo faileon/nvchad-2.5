@@ -64,7 +64,7 @@ M.nvimtree = {
   },
 }
 
--- TODO: does not work on windows? cmp-npm uses "npm" but it can't see it in the PATH for some reason?
+-- TODO: does not work on windows. cmp-npm uses "npm" but it can't see it in the PATH for some reason?
 -- M.cmp = {
 --   sources = {
 --     { name = "npm", keyword_length = 3 },

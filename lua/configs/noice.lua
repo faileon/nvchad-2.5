@@ -1,4 +1,11 @@
+-- unused for now - cant get @recording macro work with nvchad statusline
 require("noice").setup {
+  -- routes = {
+  --   {
+  --     view = "notify",
+  --     filter = { event = "msg_showmode" },
+  --   },
+  -- },
   lsp = {
     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
     override = {
@@ -6,12 +13,12 @@ require("noice").setup {
       ["vim.lsp.util.stylize_markdown"] = true,
       ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
     },
-    -- signature = {
-    --   enabled = false,
-    -- },
-    -- hover = {
-    --   enabled = false,
-    -- },
+    signature = {
+      enabled = false,
+    },
+    hover = {
+      enabled = false,
+    },
   },
   -- you can enable a preset for easier configuration
   presets = {
