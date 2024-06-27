@@ -41,7 +41,7 @@ M.mason = {
     "svelte-language-server",
     "json-lsp",
     "python-lsp-server",
-    "astro",
+    "astro-language-server",
   },
 }
 

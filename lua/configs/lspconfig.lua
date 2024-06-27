@@ -1,75 +1,8 @@
-local on_attach = require("nvchad.configs.lspconfig").on_attach
-local capabilities = require("nvchad.configs.lspconfig").capabilities
-
+local configs = require "nvchad.configs.lspconfig"
 local lspconfig = require "lspconfig"
 
--------------------
--- LUA SERVER
--------------------
-lspconfig.lua_ls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern ".git",
-  filetypes = {
-    "lua",
-  },
-}
--------------------
--- CSS SERVER
--------------------
-lspconfig.cssls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern ".git",
-  filetypes = {
-    "css",
-    "scss",
-    "less",
-  },
-}
-
--------------------
--- HTML SERVER
--------------------
-lspconfig.html.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern ".git",
-  filetypes = {
-    "angular",
-    "svelte",
-    "html",
-  },
-}
-
--------------------
--- TAILWIND SERVER
--------------------
-lspconfig.tailwindcss.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern ".git",
-  filetypes = {
-    "angular",
-    "svelte",
-    "html",
-    "css",
-    "scss",
-    "sass",
-    "less",
-  },
-  init_options = {
-    userLanguages = {
-      angular = "html",
-    },
-  },
-}
-
--------------
--- ANGULAR
--------------
+-- ANGULAR SHENANIGANS
 local install_path = vim.fn.stdpath "data" .. "/mason/packages/angular-language-server/node_modules"
--- local cwdpath = vim.fn.getcwd() .. "/node_modules"
 local ang = install_path .. "/@angular/language-server/node_modules"
 
 local cmd = {
@@ -81,174 +14,113 @@ local cmd = {
   ang,
 }
 
-lspconfig.angularls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  cmd = cmd,
-  on_new_config = function(new_config, new_root_dir)
-    new_config.cmd = cmd
-  end,
-  root_dir = lspconfig.util.root_pattern ".git",
-  filetypes = {
-    "angular",
-    "typescript",
+-- DEFINE ALL LSP SERVERS
+local servers = {
+  cssls = {
+    filetypes = {
+      "css",
+      "scss",
+      "less",
+    },
   },
-}
-
------------
--- ESLINT
-----------
-lspconfig.eslint.setup {
-  on_attach = function(client, bufnr)
-    -- call the shared on attach
-    on_attach(client, bufnr)
-    -- custom on attach
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      command = "EslintFixAll",
-    })
-  end,
-  root_dir = lspconfig.util.root_pattern ".git",
-}
-
------------
--- SVELTE
-----------
-lspconfig.svelte.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern ".git",
-}
-
--------------
--- ASTRO
--------------
--- lspconfig.astro.setup {
---   on_attach = on_attach,
---   capabilities = capabilities,
---   root_dir = lspconfig.util.root_pattern ".git",
--- }
-
------------
--- JSON-LS
-----------
-lspconfig.jsonls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern ".git",
-  settings = {
-    json = {
-      schemas = {
-        {
-          fileMatch = { "package.json" },
-          url = "https://json.schemastore.org/package.json",
-        },
-        -- TODO: add other schemas, perhaps for project.json from nx?
+  lua_ls = {
+    settings = {
+      Lua = {
+        hint = { enable = true },
+        telemetry = { enable = false },
+        diagnostics = { globals = { "bit", "vim", "it", "describe", "before_each", "after_each" } },
+      },
+    },
+    workspace = {
+      library = {
+        vim.fn.expand "$VIMRUNTIME/lua",
+        vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
+        vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
+        vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
+      },
+      maxPreload = 100000,
+      preloadFileSize = 10000,
+    },
+  },
+  html = {
+    filetypes = {
+      "angular",
+      "svelte",
+      "html",
+    },
+  },
+  eslint = {
+    on_attach = function(client, bufnr)
+      -- call the shared on attach
+      configs.on_attach(client, bufnr)
+      -- custom on attach
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        command = "EslintFixAll",
+      })
+    end,
+  },
+  tailwindcss = {
+    filetypes = {
+      "angular",
+      "svelte",
+      "html",
+      "css",
+      "scss",
+      "sass",
+      "less",
+    },
+    init_options = {
+      userLanguages = {
+        angular = "html",
       },
     },
   },
+  angularls = {
+    cmd = cmd,
+    on_new_config = function(new_config, new_root_dir)
+      new_config.cmd = cmd
+    end,
+    filetypes = {
+      "angular",
+      "typescript",
+    },
+  },
+  svelte = {},
+  jsonls = {
+    settings = {
+      json = {
+        schemas = {
+          {
+            fileMatch = { "package.json" },
+            url = "https://json.schemastore.org/package.json",
+          },
+          -- TODO: add other schemas, perhaps for project.json from nx?
+        },
+      },
+    },
+  },
+  pylsp = {},
 }
 
-lspconfig.pylsp.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern ".git",
-}
+-- INITIALIZE THEM WITH, ATTACHING NVCHAD MAGIC
+for name, opts in pairs(servers) do
+  opts.on_init = configs.on_init
+  opts.on_attach = configs.on_attach
+  opts.capabilities = configs.capabilities
+  opts.root_dir = lspconfig.util.root_pattern ".git"
+  require("lspconfig")[name].setup(opts)
+end
 
------------
--- TSSERVER
-----------
--- lspconfig.tsserver.setup {
---   on_attach = function(client, bufnr)
---     -- call the base on_attach
---     on_attach(client, bufnr)
---     print("on attach", client)
---
---     -- configure plugin
---     local method = "_typescript.configurePlugin"
---     client.request("workspace/executeCommand", {
---       command = method,
---       arguments = {
---         "@monodon/typescript-nx-imports-plugin",
---         {
---           externalFiles = {
---             {
---               mainFile = "C:/Projects/datera/web-applications/apps/absint-app/src/main.ts",
---               directory = "C:/Projects/datera/web-applications/apps/absint-app",
---             },
---           },
---         },
---       },
---     }, function(arg)
---       print("executeCommand response", arg)
---     end, bufnr)
---   end,
---   on_init = function(client, initialize_result)
---     print("INIT RESULT", client)
---
---     -- configure plugin
---     -- local method = "_typescript.configurePlugin"
---     -- local reqResult = client.request("workspace/executeCommand", {
---     --   command = method,
---     --   arguments = {
---     --     "@monodon/typescript-nx-imports-plugin",
---     --     {
---     --       externalFiles = {
---     --         {
---     --           mainFile = "C:/Projects/datera/web-applications/apps/absint-app/src/main.ts",
---     --           directory = "C:/Projects/datera/web-applications/apps/absint-app",
---     --         },
---     --       },
---     --     },
---     --   },
---     -- })
---     -- print("workspace/executeCommand result", reqResult)
---   end,
---   capabilities = capabilities,
---   root_dir = lspconfig.util.root_pattern ".git",
---   -- cmd = { "typescript-language-server", "--stdio", "--log-level", "4" },
---   init_options = {
---     hostInfo = "neovim",
---     plugins = {
---       {
---         name = "@monodon/typescript-nx-imports-plugin",
---         location = "C:\\Users\\tomasbird\\AppData\\Roaming\\nvm\\v18.10.0",
---       },
---     },
---     tsserver = {
---       logVerbosity = "verbose",
---     },
---   },
--- }
-
--- local constants = require "typescript-tools.protocol.constants"
--- local method = constants.CustomMethods.ConfigurePlugin
--- local args = {
---   pluginName = "@monodon/typescript-nx-imports-plugin",
---   configuration = {
---     externalFiles = {
---       {
---         mainFile = "C:/Projects/datera/web-applications/apps/absint-app/src/main.ts",
---         directory = "C:/Projects/datera/web-applications/apps/absint-app/src",
---       },
---       -- {
---       --   mainFile = "C:/Projects/datera/web-applications/libs/dashboards/common/models/dashboard/src/index.ts",
---       --   directory = "C:/Projects/datera/web-applications/libs/dashboards/common/models/dashboard/src",
---       -- },
---     },
---   },
--- }
------------
 -- TSSERVER via typescript-tools:
-----------
 require("typescript-tools").setup {
   on_init = function(client, bufnr)
     vim.schedule(function()
       vim.cmd.NxInit()
     end)
   end,
-  on_attach = on_attach,
-  capabilities = capabilities,
+  on_attach = configs.on_attach,
+  capabilities = configs.capabilities,
   root_dir = lspconfig.util.root_pattern ".git",
   settings = {
     tsserver_plugins = {
@@ -264,7 +136,8 @@ require("typescript-tools").setup {
   },
 }
 
+-- higlight of todos in comments
 require("todo-comments").setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
+  on_attach = configs.on_attach,
+  capabilities = configs.capabilities,
 }
