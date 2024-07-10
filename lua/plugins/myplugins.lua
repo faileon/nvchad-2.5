@@ -30,13 +30,13 @@ local plugins = {
   },
 
   -- Install a plugin
-  {
-    "max397574/better-escape.nvim",
-    event = "InsertEnter",
-    config = function()
-      require("better_escape").setup()
-    end,
-  },
+  -- {
+  --   "max397574/better-escape.nvim",
+  --   event = "InsertEnter",
+  --   config = function()
+  --     require("better_escape").setup()
+  --   end,
+  -- },
 
   {
     "stevearc/conform.nvim",
@@ -75,16 +75,25 @@ local plugins = {
     "hrsh7th/nvim-cmp",
     opts = overrides.cmp,
   },
-
   {
-    "MeanderingProgrammer/markdown.nvim",
+    "OXY2DEV/markview.nvim",
     ft = "markdown",
-    name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    config = function()
-      require "configs.markdown"
-    end,
+    dependencies = {
+      -- You may not need this if you don't lazy load
+      -- Or if the parsers are in your $RUNTIMEPATH
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
   },
+  -- {
+  --   "MeanderingProgrammer/markdown.nvim",
+  --   ft = "markdown",
+  --   name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
+  --   dependencies = { "nvim-treesitter/nvim-treesitter" },
+  --   config = function()
+  --     require "configs.markdown"
+  --   end,
+  -- },
   {
     "rcarriga/nvim-notify",
     event = "VeryLazy",

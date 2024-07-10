@@ -23,25 +23,6 @@ local servers = {
       "less",
     },
   },
-  -- lua_ls = {
-  --   settings = {
-  --     Lua = {
-  --       hint = { enable = true },
-  --       telemetry = { enable = false },
-  --       diagnostics = { globals = { "bit", "vim", "it", "describe", "before_each", "after_each" } },
-  --     },
-  --   },
-  --   workspace = {
-  --     library = {
-  --       vim.fn.expand "$VIMRUNTIME/lua",
-  --       vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
-  --       vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
-  --       vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
-  --     },
-  --     maxPreload = 100000,
-  --     preloadFileSize = 10000,
-  --   },
-  -- },
   html = {
     filetypes = {
       "angular",
@@ -53,7 +34,7 @@ local servers = {
     on_attach = function(client, bufnr)
       -- call the shared on attach
       configs.on_attach(client, bufnr)
-      -- custom on attach
+      -- custom on attach -> run EslintFixAll on buffer save
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = bufnr,
         command = "EslintFixAll",
@@ -101,12 +82,16 @@ local servers = {
     },
   },
   pylsp = {},
+  dockerls = {},
+  docker_compose_language_service = {},
 }
 
 -- INITIALIZE THEM WITH, ATTACHING NVCHAD MAGIC
 for name, opts in pairs(servers) do
   opts.on_init = configs.on_init
-  opts.on_attach = configs.on_attach
+  if opts.on_attach == nil then
+    opts.on_attach = configs.on_attach
+  end
   opts.capabilities = configs.capabilities
   opts.root_dir = lspconfig.util.root_pattern ".git"
   require("lspconfig")[name].setup(opts)
