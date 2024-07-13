@@ -84,6 +84,20 @@ local servers = {
   pylsp = {},
   dockerls = {},
   docker_compose_language_service = {},
+  gopls = {
+    -- cmd = { "nc", "localhost", "8888" },
+    -- cmd = vim.lsp.rpc.connect("127.0.0.1", 8888),
+    cmd = vim.lsp.rpc.connect(vim.fn.getcwd() .. "/.dev/gopls.socket"),
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
+        },
+        staticcheck = true,
+        gofumpt = true,
+      },
+    },
+  },
 }
 
 -- INITIALIZE THEM WITH, ATTACHING NVCHAD MAGIC

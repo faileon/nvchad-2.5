@@ -1,3 +1,13 @@
+-- Custom formatter function to use LSP for formatting
+local function lsp_formatting(bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  vim.lsp.buf.format {
+    bufnr = bufnr,
+    timeout_ms = 500,
+  }
+  return {}
+end
+
 local options = {
   lsp_fallback = true,
 
@@ -15,6 +25,7 @@ local options = {
     yaml = { "prettier" },
 
     sh = { "shfmt" },
+    go = lsp_formatting,
   },
 
   -- adding same formatter for multiple filetypes can look too much work for some
