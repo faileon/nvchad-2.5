@@ -22,21 +22,21 @@ local plugins = {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = overrides.treesitter,
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-context",
+    },
   },
 
   {
     "nvim-tree/nvim-tree.lua",
     opts = overrides.nvimtree,
   },
-
-  -- Install a plugin
-  -- {
-  --   "max397574/better-escape.nvim",
-  --   event = "InsertEnter",
-  --   config = function()
-  --     require("better_escape").setup()
-  --   end,
-  -- },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    config = function()
+      require "configs.ts-context"
+    end,
+  },
 
   {
     "stevearc/conform.nvim",
@@ -73,7 +73,11 @@ local plugins = {
   },
   {
     "hrsh7th/nvim-cmp",
-    opts = overrides.cmp,
+    opts = function()
+      local cmp_config = require "nvchad.configs.cmp"
+      table.insert(cmp_config.sources, 1, { name = "npm", keyword_length = 3 })
+      return cmp_config
+    end,
   },
   {
     "OXY2DEV/markview.nvim",
@@ -126,20 +130,6 @@ local plugins = {
       require "configs.noice"
     end,
   },
-  --
-  --
-  -- To make a plugin not be loaded
-  -- {
-  --   "NvChad/nvim-colorizer.lua",
-  --   enabled = false
-  -- },
-  -- All NvChad plugins are lazy-loaded by default
-  -- For a plugin to be loaded, you will need to set either `ft`, `cmd`, `keys`, `event`, or set `lazy = false`
-  -- If you want a plugin to load on startup, add `lazy = false` to a plugin spec, for example
-  -- {
-  --   "mg979/vim-visual-multi",
-  --   lazy = false,
-  -- }
 }
 
 return plugins
