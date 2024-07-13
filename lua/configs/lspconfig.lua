@@ -1,6 +1,10 @@
 local configs = require "nvchad.configs.lspconfig"
 local lspconfig = require "lspconfig"
 
+-- must be set here, cant be set in myinit.lua cause nvchad
+-- disable diagnostics, let tiny-inline-diagnostic.nvim handle it
+vim.diagnostic.config { virtual_text = false }
+
 -- ANGULAR SHENANIGANS
 local install_path = vim.fn.stdpath "data" .. "/mason/packages/angular-language-server/node_modules"
 local ang = install_path .. "/@angular/language-server/node_modules"

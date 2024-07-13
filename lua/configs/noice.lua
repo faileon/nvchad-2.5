@@ -1,11 +1,18 @@
 -- unused for now - cant get @recording macro work with nvchad statusline
 require("noice").setup {
-  -- routes = {
-  --   {
-  --     view = "notify",
-  --     filter = { event = "msg_showmode" },
-  --   },
-  -- },
+  routes = {
+    -- {
+    --   view = "notify",
+    --   filter = { event = "msg_showmode" },
+    -- },
+    {
+      filter = {
+        event = "notify",
+        find = "No information available",
+      },
+      opts = { skip = true },
+    },
+  },
   lsp = {
     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
     override = {

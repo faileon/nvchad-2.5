@@ -95,6 +95,13 @@ local plugins = {
   --   end,
   -- },
   {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy",
+    config = function()
+      require "configs.tiny-inline-diagnostic"
+    end,
+  },
+  {
     "rcarriga/nvim-notify",
     event = "VeryLazy",
     opts = {
