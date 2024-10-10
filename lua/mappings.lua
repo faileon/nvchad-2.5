@@ -16,3 +16,12 @@ map("n", "<leader>li", ":TSToolsAddMissingImports<CR>", { desc = "TSTools Add mi
 -- Indent VISUAL blocks
 map("v", ">", ">gv", { desc = "Indent selected VISUAL block" })
 map("v", "<", "<gv", { desc = "Indent selected VISUAL block" })
+
+local ng = require "ng"
+map("n", "<leader>at", ng.goto_template_for_component, { desc = "[Angular] go to template (component.html)" })
+map("n", "<leader>ac", ng.goto_component_with_template_file, { desc = "[Angular] go to component (component.ts)" })
+
+-- Telescope
+map("n", "<leader>fc", function()
+  require("telescope.builtin").lsp_workspace_symbols { default_text = ":class: " }
+end, { desc = "telescope find all classes with LSP" })

@@ -55,6 +55,10 @@ local plugins = {
     opts = {},
   },
 
+  -- some angular stuff
+  {
+    "joeveiga/ng.nvim",
+  },
   {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },

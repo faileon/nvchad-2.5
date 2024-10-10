@@ -32,6 +32,7 @@ local servers = {
       "angular",
       "svelte",
       "html",
+      "templ",
     },
   },
   eslint = {
@@ -54,10 +55,12 @@ local servers = {
       "scss",
       "sass",
       "less",
+      "templ",
     },
     init_options = {
       userLanguages = {
         angular = "html",
+        templ = "html",
       },
     },
   },
@@ -101,6 +104,10 @@ local servers = {
         gofumpt = true,
       },
     },
+  },
+  templ = {
+    -- cmd = vim.lsp.rpc.connect("127.0.0.1", 8888),
+    cmd = vim.lsp.rpc.connect(vim.fn.getcwd() .. "/.dev/templ.socket"),
   },
 }
 
