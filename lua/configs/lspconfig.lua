@@ -47,6 +47,7 @@ local servers = {
     end,
   },
   tailwindcss = {
+    skip_root_dir = true,
     filetypes = {
       "angular",
       "svelte",
@@ -118,7 +119,9 @@ for name, opts in pairs(servers) do
     opts.on_attach = configs.on_attach
   end
   opts.capabilities = configs.capabilities
-  opts.root_dir = lspconfig.util.root_pattern ".git"
+  if not opts.skip_root_dir then
+    opts.root_dir = lspconfig.util.root_pattern ".git"
+  end
   require("lspconfig")[name].setup(opts)
 end
 
