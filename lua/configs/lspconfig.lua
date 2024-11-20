@@ -47,7 +47,7 @@ local servers = {
     end,
   },
   tailwindcss = {
-    skip_root_dir = true,
+    -- skip_root_dir = true,
     filetypes = {
       "angular",
       "svelte",
@@ -57,6 +57,21 @@ local servers = {
       "sass",
       "less",
       "templ",
+      "astro",
+    },
+    settings = {
+      tailwindCSS = {
+        files = {
+          exclude = {
+            "**/.git/**",
+            "**/node_modules/**",
+            "**/.hg/**",
+            "**/.svn/**",
+            "**/volumes/**",
+            "**/.nx/**",
+          },
+        },
+      },
     },
     init_options = {
       userLanguages = {
@@ -142,9 +157,8 @@ require("typescript-tools").setup {
     },
     -- tsserver_logs = "verbose",
   },
-
   filetypes = {
-    "svelte",
+    -- "svelte",
     "typescript",
   },
 }

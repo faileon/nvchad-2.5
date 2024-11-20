@@ -19,6 +19,7 @@ local options = {
     css = { "prettier" },
     scss = { "prettier" },
     html = { "prettier" },
+    astro = { "prettier" },
     angular = { "prettier" },
     svelte = { "prettier" },
     json = { "prettier" },

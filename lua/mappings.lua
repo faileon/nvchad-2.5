@@ -23,5 +23,7 @@ map("n", "<leader>ac", ng.goto_component_with_template_file, { desc = "[Angular]
 
 -- Telescope
 map("n", "<leader>fc", function()
-  require("telescope.builtin").lsp_workspace_symbols { default_text = ":class: " }
+  require("telescope.builtin").lsp_workspace_symbols {
+    default_text = ":class: ",
+  }
 end, { desc = "telescope find all classes with LSP" })
