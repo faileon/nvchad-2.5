@@ -30,7 +30,7 @@ local servers = {
   html = {
     filetypes = {
       "angular",
-      "svelte",
+      -- "svelte",
       "html",
       "templ",
     },

@@ -13,6 +13,9 @@ opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.fileformats = "unix,dos"
 
+-- Disable atomic writes (temp file + rename) and instead modify file directly (this helps nx daemon)
+opt.backupcopy = "yes"
+
 -- Relative numbers
 vim.wo.relativenumber = true
 -- Current line shows as absolute number

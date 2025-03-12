@@ -8,19 +8,19 @@ local highlights = require "highlights"
 
 M.ui = {
 
-  statusline = {
-    order = { "mode", "file", "git", "noice_recording", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cursor", "cwd" },
-    modules = {
-      noice_recording = function()
-        local noice = require "noice"
-        if noice.api.statusline.mode.has() then
-          return "%#NoiceRecordingHl#" .. " " .. noice.api.statusline.mode.get()
-        else
-          return ""
-        end
-      end,
-    },
-  },
+  -- statusline = {
+  --   order = { "mode", "file", "git", "noice_recording", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cursor", "cwd" },
+  --   modules = {
+  --     noice_recording = function()
+  --       local noice = require "noice"
+  --       if noice.api.statusline.mode.has() then
+  --         return "%#NoiceRecordingHl#" .. " " .. noice.api.statusline.mode.get()
+  --       else
+  --         return ""
+  --       end
+  --     end,
+  --   },
+  -- },
 }
 
 M.nvdash = {
@@ -56,9 +56,9 @@ M.base46 = {
   -- transparency = true,
 }
 
-vim.cmd [[
-  highlight NoiceRecordingHl guifg=#dca561
-]]
+-- vim.cmd [[
+--   highlight NoiceRecordingHl guifg=#dca561
+-- ]]
 
 -- M.lsp = {
 --   signature = false,

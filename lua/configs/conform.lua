@@ -24,6 +24,7 @@ local options = {
     svelte = { "prettier" },
     json = { "prettier" },
     yaml = { "prettier" },
+    -- markdown = { "prettier" },
 
     sh = { "shfmt" },
     go = lsp_formatting,
