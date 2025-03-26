@@ -139,3 +139,10 @@ vim.api.nvim_create_user_command("NxInit", function()
     stderr_buffered = true,
   })
 end, {})
+
+-- load project specific config
+local startup_file = vim.fn.getcwd() .. "/.nvim/startup.lua"
+if vim.fn.filereadable(startup_file) == 1 then
+  print("loading project startup file ...", startup_file)
+  dofile(startup_file)
+end

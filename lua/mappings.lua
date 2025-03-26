@@ -18,8 +18,8 @@ map("v", ">", ">gv", { desc = "Indent selected VISUAL block" })
 map("v", "<", "<gv", { desc = "Indent selected VISUAL block" })
 
 local ng = require "ng"
-map("n", "<leader>at", ng.goto_template_for_component, { desc = "[Angular] go to template (component.html)" })
-map("n", "<leader>ac", ng.goto_component_with_template_file, { desc = "[Angular] go to component (component.ts)" })
+map("n", "<leader>nt", ng.goto_template_for_component, { desc = "[Angular] go to template (component.html)" })
+map("n", "<leader>nc", ng.goto_component_with_template_file, { desc = "[Angular] go to component (component.ts)" })
 
 -- Telescope
 map("n", "<leader>fc", function()
