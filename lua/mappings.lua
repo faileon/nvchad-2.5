@@ -17,9 +17,14 @@ map("n", "<leader>li", ":TSToolsAddMissingImports<CR>", { desc = "TSTools Add mi
 map("v", ">", ">gv", { desc = "Indent selected VISUAL block" })
 map("v", "<", "<gv", { desc = "Indent selected VISUAL block" })
 
-local ng = require "ng"
-map("n", "<leader>nt", ng.goto_template_for_component, { desc = "[Angular] go to template (component.html)" })
-map("n", "<leader>nc", ng.goto_component_with_template_file, { desc = "[Angular] go to component (component.ts)" })
+-- LSP stuff before i install new neovim
+map("n", "gr", vim.lsp.buf.references, { desc = "Go to References" })
+map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Actions" })
+
+-- Other.nvim
+map("n", "<leader>no", ":Other<CR>", { desc = "Other *" })
+map("n", "<leader>nt", ":Other html<CR>", { desc = "Other template" })
+map("n", "<leader>nc", ":Other component<CR>", { desc = "Other component" })
 
 -- Telescope
 map("n", "<leader>fc", function()

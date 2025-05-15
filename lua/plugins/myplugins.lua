@@ -39,6 +39,13 @@ local plugins = {
   },
 
   {
+    "rgroli/other.nvim",
+    ft = { "angular", "typescript", "scss", "css" },
+    config = function()
+      require "configs.other"
+    end,
+  },
+  {
     "stevearc/conform.nvim",
     --  for users those who want auto-save conform + lazyloading!
     event = "BufWritePre",
@@ -54,11 +61,6 @@ local plugins = {
     -- dev = true,
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     opts = {},
-  },
-
-  -- some angular stuff
-  {
-    "joeveiga/ng.nvim",
   },
   {
     "folke/todo-comments.nvim",
