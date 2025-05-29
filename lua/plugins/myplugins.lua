@@ -83,6 +83,22 @@ local plugins = {
     opts = function()
       local cmp_config = require "nvchad.configs.cmp"
       table.insert(cmp_config.sources, 1, { name = "npm", keyword_length = 3 })
+      -- Add formatting to show sources
+      cmp_config.formatting = {
+        format = function(entry, vim_item)
+          -- Add the source name in brackets
+          vim_item.menu = ({
+            buffer = "[Buffer]",
+            nvim_lsp = "[LSP]",
+            luasnip = "[LuaSnip]",
+            npm = "[NPM]",
+            nvim_lua = "[Lua]",
+            path = "[Path]",
+          })[entry.source.name] or "[" .. entry.source.name .. "]"
+
+          return vim_item
+        end,
+      }
       return cmp_config
     end,
   },
