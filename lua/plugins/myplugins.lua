@@ -178,19 +178,30 @@ local plugins = {
     event = "VeryLazy",
     version = false, -- Never set this value to "*"! Never!
     opts = {
+      providers = {
+        openai = {
+          endpoint = "https://api.openai.com/v1",
+          -- model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
+          model = "o4-mini-2025-04-16",
+          timeout = 90000 * 2, -- Timeout in milliseconds, increase this for reasoning models
+          extra_request_body = {
+            temperature = 0,
+            max_completion_tokens = 8192 * 2, -- Increase this to include reasoning tokens (for reasoning models)
+          },
+          --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+        },
+        gemini = {
+          model = "gemini-2.5-pro-preview-06-05",
+          timeout = 90000 * 2, -- Timeout in milliseconds, increase this for reasoning models
+          extra_request_body = {
+            temperature = 0,
+            max_completion_tokens = 8192 * 2, -- Increase this to include reasoning tokens (for reasoning models)
+          },
+          -- model = "gemini-2.5-flash-preview-05-20",
+        },
+      },
       -- provider = "openai",
       provider = "gemini",
-      openai = {
-        endpoint = "https://api.openai.com/v1",
-        model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-        timeout = 90000, -- Timeout in milliseconds, increase this for reasoning models
-        temperature = 0,
-        max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-        --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
-      },
-      gemini = {
-        model = "gemini-2.5-pro-preview-05-06",
-      },
       windows = {
         width = 40,
       },

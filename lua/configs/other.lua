@@ -1,4 +1,3 @@
-print "hello"
 require("other-nvim").setup {
   mappings = {
     -- "livewire",
