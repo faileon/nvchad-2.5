@@ -201,7 +201,7 @@ local plugins = {
         },
       },
       -- provider = "openai",
-      provider = "gemini",
+      provider = "openai",
       windows = {
         width = 40,
       },
