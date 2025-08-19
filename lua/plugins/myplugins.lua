@@ -191,7 +191,7 @@ local plugins = {
           --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
         },
         gemini = {
-          model = "gemini-2.5-pro-preview-06-05",
+          model = "gemini-2.5-pro",
           timeout = 90000 * 2, -- Timeout in milliseconds, increase this for reasoning models
           extra_request_body = {
             temperature = 0,
@@ -200,8 +200,8 @@ local plugins = {
           -- model = "gemini-2.5-flash-preview-05-20",
         },
       },
+      provider = "gemini",
       -- provider = "openai",
-      provider = "openai",
       windows = {
         width = 40,
       },
