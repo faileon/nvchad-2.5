@@ -95,30 +95,26 @@ local servers = {
 -- ============================================================
 
 for name, opts in pairs(servers) do
-  -- 1. Attach NvChad helper functions
-  -- opts.on_init = configs.on_init
-  -- if opts.on_attach == nil then
-  --   opts.on_attach = configs.on_attach
-  -- end
-  -- opts.capabilities = configs.capabilities
-
-  -- 2. Handle root_dir using direct util require (avoids deprecation warning)
-  -- if not opts.skip_root_dir and not opts.root_dir then
-  --   opts.root_dir = lsp_util.root_pattern ".git"
-  -- end
-
-  -- 3. Merge user config with lspconfig's defaults
-  -- We need the default 'cmd', 'filetypes', etc. from the plugin
+  -- 1. Load Defaults
   local config_def = lsp_configs[name]
   local defaults = config_def and config_def.default_config or {}
 
-  -- Force merge: user opts override defaults
+  -- 2. IMPORTANT: Keep NvChad wiring
+  -- Required for nvim-cmp (autocomplete) to work
+  opts.capabilities = configs.capabilities
+
+  -- Required for NvChad specific keymaps (though Nvim 0.11 has defaults now)
+  if opts.on_attach == nil then
+    opts.on_attach = configs.on_attach
+  end
+  -- opts.on_init = configs.on_init -- You can probably skip this one safely
+
+  -- 3. Merge
+  -- We rely on 'defaults.root_dir' (smart detection) or 'opts.root_dir' (manual override).
   local final_opts = vim.tbl_deep_extend("force", defaults, opts)
 
-  -- 4. THE NEW WAY: Register directly with vim.lsp.config
+  -- 4. Register and Enable
   vim.lsp.config[name] = final_opts
-
-  -- 5. Enable the server (this sets up the FileType autocmds)
   vim.lsp.enable(name)
 end
 
