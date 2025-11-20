@@ -30,9 +30,21 @@ local servers = {
   },
   eslint = {
     on_attach = function(client, bufnr)
-      -- call the shared on attach
       configs.on_attach(client, bufnr)
-      -- custom on attach -> run EslintFixAll on buffer save
+
+      -- 1. Create the missing :EslintFixAll command
+      vim.api.nvim_buf_create_user_command(bufnr, "EslintFixAll", function()
+        -- Use the generic "source.fixAll" code action
+        vim.lsp.buf.code_action {
+          apply = true,
+          context = {
+            only = { "source.fixAll.eslint" },
+            diagnostics = {},
+          },
+        }
+      end, { desc = "Fix all eslint errors" })
+
+      -- 2. Run it automatically on save
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = bufnr,
         command = "EslintFixAll",
