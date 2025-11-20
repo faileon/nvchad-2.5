@@ -28,10 +28,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- Set the filetype of docker-compose files to 'yaml.docker-compose' (important for lsp)
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "docker-compose*.yml",
-  command = "set filetype=yaml.docker-compose",
-})
+-- vim.api.nvim_create_autocmd("BufEnter", {
+--   pattern = "docker-compose*.yml",
+--   command = "set filetype=yaml.docker-compose",
+-- })
+vim.filetype.add {
+  pattern = { [".*%.component%.html"] = "angular" },
+}
 
 -- Autodetect hyprland config for treesitter
 vim.filetype.add {
